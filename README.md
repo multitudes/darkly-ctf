@@ -111,3 +111,18 @@ I see
 | .fa-flag-o         | \f11d   | Outlined Flag   | An "unclaimed" flag or a placeholder.             |
 | .fa-flag-checkered | \f11e   | Racing Flag     | The end of a sequence or a major milestone breach.|
 
+## robots.txt
+
+```bash
+curl http://localhost:8080/robots.txt
+```
+
+```txt
+User-agent: *
+Disallow: /whatever
+Disallow: /.hidden
+```
+
+So I went to that `/whatever` directory with `localhost:8080/whatever`
+
+
