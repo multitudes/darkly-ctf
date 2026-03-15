@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import time
 
 BASE_URL = "http://localhost:8080/.hidden/"
 
@@ -42,6 +43,8 @@ def crawl(url) -> None:
                     print(".", end="", flush=True)
             elif href.endswith("/"):
                 crawl(full_url)
+
+            time.sleep(0.03)
 
     except Exception as e:
         print(f"Error accessing {url}: {e}")

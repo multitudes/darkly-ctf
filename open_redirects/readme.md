@@ -1,0 +1,45 @@
+# Open Redirects
+
+The problem with an open redirect is that the application lets user-controlled input decide where the browser goes next.
+
+Typical example:
+
+```txt
+index.php?page=redirect&site=facebook
+```
+
+If the server only checks “take the `site` parameter and redirect there”, an attacker may be able to turn it into:
+
+```txt
+index.php?page=redirect&site=https://evil.example
+```
+
+Why that is dangerous:
+
+1. It makes a malicious link look trustworthy.
+   The victim sees your legitimate domain first, clicks it, and then gets silently sent somewhere else.
+
+2. It is useful for phishing.
+   A link starting with your real site is much more convincing in emails, chats, or fake login flows.
+
+3. It can help bypass filters.
+   Some systems trust your domain and may allow the first URL, even though it ends up elsewhere.
+
+4. It can chain with other bugs.
+   Open redirects are often combined with OAuth issues, token leakage, password reset flows, or XSS-style tricks.
+
+So the core issue is not “the page moves somewhere else”. The issue is: your site becomes a trusted jumping point for attackers.
+
+A safe implementation usually does one of these:
+
+- use a strict allowlist such as only `facebook`, `twitter`, `instagram`
+- map friendly names to hardcoded URLs on the server
+- reject full external URLs from user input
+
+In your Darkly case, the interesting test is whether `site` accepts only known values or whether you can force an arbitrary destination.
+
+I tried to change the redirect and it did not redirect. Instead it gave me the flag!
+
+```txt
+GOOD JOB HERE IS THE FLAG : B9E775A0291FED784A2D9680FCFAD7EDD6B8CDF87648DA647AAF4BBA288BCAB3
+```

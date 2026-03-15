@@ -53,8 +53,8 @@ Surname : Member_Sql_Injection
 
 the DB runs two selects and merges them:
 
-SELECT first_name, last_name FROM users WHERE user_id = 1
-SELECT 1, database() (no table needed; it’s just constants/functions in MySQL)
+`SELECT first_name, last_name FROM users WHERE user_id = 1`
+`SELECT 1, database()` (no table needed; it’s just constants/functions in MySQL)
 So you get two rows:
 
 Row from users for user_id=1 -> one | me

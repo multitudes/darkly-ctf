@@ -154,15 +154,11 @@ An MD5 hash is a "hexadecimal" representation of a 128-bit number. This means it
 Since you're on a Mac with Homebrew, you can use specialized tools that "guess" the hash type for you based on its pattern:
 
 * **`hashid`**: A popular command-line tool for this purpose.
+
 ```bash
 brew install hashid
 hashid YOUR_HASH_STRING_HERE
-
 ```
-
-
-It will analyze the string and give you a list of possible formats (MD5 will usually be at the top).
-* **Online Identifiers:** Sites like **Hashes.com** or **TunnelsUP** have "Hash Analyzers" where you paste the string and they tell you the most likely algorithm.
 
 ### 4. The "Crackability" Test
 
@@ -183,3 +179,20 @@ In Darkly, the flag is rarely the hash itself; it's often the *result* of the ha
 
 [Identification of different hash types](https://www.google.com/search?q=https://www.youtube.com/watch%3Fv%3DiVXLM-e5gkQ)
 \
+
+Open redirect looks very likely. The site exposes routes like localhost:8080/index.php?page=redirect&site=facebook, localhost:8080/index.php?page=redirect&site=twitter, and localhost:8080/index.php?page=redirect&site=instagram. That is a classic place to test parameter tampering.
+
+File upload is a strong candidate. The upload form is visible in localhost:8080/index.php?page=upload. That usually means content-type, extension, and execution-path validation are worth checking.
+
+File inclusion or page parameter abuse is plausible. The whole app routes through index.php?page=..., visible in localhost:8080/index.php. In challenges like this, page is often worth testing for local file inclusion or direct access to unintended files.
+
+Hidden content / forced browsing is definitely part of the challenge set. The main README already calls out /whatever and /.hidden via README.md. That is not injection, but it is another confirmed class of breach in this VM.
+
+XSS is probably present somewhere, but not yet confirmed by the repo notes. The main README explicitly lists XSS among the expected concepts in README.md.
+
+So the short answer is: I do not see evidence of a third documented SQL injection here, but I do see several likely non-SQL injection-style attack surfaces. If you want the fastest next path, I would check them in this order:
+
+page=redirect&site=...
+page=upload
+page= parameter tampering for inclusion
+feedback/signin/search forms for reflected or stored XSS
