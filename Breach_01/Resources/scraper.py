@@ -12,7 +12,6 @@ TROLL_MESSAGES = [
     "Toujours pas tu vas craquer non ?",
     "Demande à ton voisin de droite",
     "Demande à ton voisin du dessus",
-
 ]
 
 visited = set()

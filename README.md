@@ -125,4 +125,63 @@ Disallow: /.hidden
 
 So I went to that `/whatever` directory with `localhost:8080/whatever`
 
+## md5 hash?
 
+Identifying an **MD5 hash** is a common task in CTFs (Capture The Flag) like Darkly. Since these are often used as "flags" or for simple password storage, they have a very distinct "fingerprint."
+
+Here is how you can tell if that random string you found is an MD5 hash:
+
+### 1. The "Rule of 32"
+
+The most reliable physical characteristic of an MD5 hash is its length. When represented in a human-readable format, an MD5 hash is **always exactly 32 characters long**.
+
+* **Count them:** If your string is 31 or 33 characters, it is **not** a standard MD5 hash.
+* **Compare to others:**
+* **MD5:** 32 chars.
+* **SHA-1:** 40 chars.
+* **SHA-256:** 64 chars.
+
+
+
+### 2. Hexadecimal Only
+
+An MD5 hash is a "hexadecimal" representation of a 128-bit number. This means it will only ever contain:
+
+* **Numbers:** `0-9`
+* **Letters:** `a-f` (or `A-F`, as it's case-insensitive).
+* **No other symbols:** If you see a `g`, `z`, `?`, or `$`, it's either not MD5 or it's an "encoded" or "salted" hash.
+
+### 3. Use Identification Tools
+
+Since you're on a Mac with Homebrew, you can use specialized tools that "guess" the hash type for you based on its pattern:
+
+* **`hashid`**: A popular command-line tool for this purpose.
+```bash
+brew install hashid
+hashid YOUR_HASH_STRING_HERE
+
+```
+
+
+It will analyze the string and give you a list of possible formats (MD5 will usually be at the top).
+* **Online Identifiers:** Sites like **Hashes.com** or **TunnelsUP** have "Hash Analyzers" where you paste the string and they tell you the most likely algorithm.
+
+### 4. The "Crackability" Test
+
+In Darkly, the flag is rarely the hash itself; it's often the *result* of the hash.
+
+* **Go to [CrackStation](https://crackstation.net/):** Paste your 32-character string.
+* **The Result:** Because MD5 is cryptographically "broken" and very fast to compute, online databases have pre-computed billions of common words. If CrackStation gives you a word like `password123` or `flag_found`, you know for sure it was an MD5 hash.
+
+### Summary Checklist
+
+| Feature | MD5 Requirement |
+| --- | --- |
+| **Length** | Exactly 32 characters. |
+| **Character Set** | 0-9 and a-f (hex). |
+| **Entropy** | Appears completely random (no repeating patterns). |
+
+**Once your crawler finds a 32-character hex string, try cracking it. If it works, you've officially solved your first breach! Ready to look at how to find the next one in the "Member Search" section?**
+
+[Identification of different hash types](https://www.google.com/search?q=https://www.youtube.com/watch%3Fv%3DiVXLM-e5gkQ)
+\
