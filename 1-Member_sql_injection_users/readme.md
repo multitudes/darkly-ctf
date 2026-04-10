@@ -1,14 +1,14 @@
 # Member_Sql_Injection
 
 found md5 hash: 5ff9d0165b4f92b14994e5c685cdce28
-which is FortyTwo
+which is FortyTwo when cracked with the md5 hash
 
 ## The members page
 
 In this page: `http://localhost:8080/index.php?page=member`
 you can look member by id but it is open to sql injection.
 
-entering a text i get:
+entering a random text i get:
 
 ```txt
 Unknown column 'sdfg' in 'where clause'
@@ -160,27 +160,15 @@ By injecting `UNION SELECT`, you are forcing the database to run a second, compl
 
 `1 UNION SELECT first_name, countersign FROM users`
 
-The database sees it like this:
+and here we have it
+```
+ID: 1 UNION SELECT first_name, countersign FROM users 
+First name: Flag
+Surname : 5ff9d0165b4f92b14994e5c685cdce28
+```
 
-1. **Query A:** Get `first_name` and `last_name` from user #1.
-2. **Query B:** Get `first_name` and `countersign` from **every** user in the table.
-3. **The Result:** It puts them on top of each other.
+That 32-character string (`5ff9d0165b4f92b14994e5c685cdce28`) is an **MD5 hash**. 
 
-### 3. Why the headers stayed the same
+1. Go to [CrackStation](https://crackstation.net/) and paste `5ff9d0165b4f92b14994e5c685cdce28` → `FortyTwo`
+2. That's your flag!
 
-Even though you requested the `countersign` column, the website UI still says **"Surname"**.
-
-* The website's code is hardcoded to display the second result it gets under the label "Surname".
-* It doesn't know (or care) that you swapped the real `last_name` column for the secret `countersign` column. It just prints whatever data is in that second slot.
-
-So,  we’ve found the flag for this breach. That 32-character string (`5ff9d0165b4f92b14994e5c685cdce28`) is an **MD5 hash**. Running that through CrackStation, Ill will get the plain-text password, which is your final flag.
-
-### Summary of the "Member Search" Breach
-
-* **Vulnerability:** The `ID` input was concatenated directly into the SQL string without quotes or sanitization.
-* **The "Tell":** The `Unknown column...` error revealed the query structure.
-* **The Breach:** You used `information_schema` (the database's own "dictionary") to find hidden column names that the developers thought were safe because they weren't used on the visible webpage.
-
-Go to [CrackStation](https://crackstation.net/) and paste `5ff9d0165b4f92b14994e5c685cdce28`.
-2. **Document it:** Put the MD5 and the cracked password in your `Breach_02/flag` and your methodology in `Breach_02/Resources`.
-3. **Search for more:** There is another search-based breach on the **"Images"** page. It’s a bit trickier because it involves a different table (`list_images`).

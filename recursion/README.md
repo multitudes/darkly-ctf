@@ -59,3 +59,9 @@ Got this:
 Hey, here is your flag : d5eec3ec36cf80dce44a896f961c1831a05526ec215693c8f2c39543497d4466
 ```
 
+Another way is:
+
+```bash
+# This is a VERY aggressive way to do it with wget:
+wget -r -l 0 -A "README" http://localhost:8080/.hidden/
+```

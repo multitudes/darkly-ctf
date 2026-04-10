@@ -1,11 +1,12 @@
 # darkly-ctf
+
 A ctf for web security
 
 The goal is to find **14 different breaches** on a provided virtual machine, each rewarding you with a "flag". Per the subject, you must be able to explain the "how" and "why" of every exploit, making understanding the underlying concept more important than just getting the flag.
 
-## 1. Essential Concepts (The "What to Study")
+## 1. Essential Concepts
 
-The project explicitly mentions **OWASP** (Open Web Application Security Project). You should start by researching the **OWASP Top 10**, which lists the most critical web security risks. Specifically, look into:
+You should start by researching the **OWASP Top 10**, which lists the most critical web security risks. Specifically, look into:
 
 * **Injection (SQLi):** How user input can manipulate database queries.
 * **Broken Authentication:** Weaknesses in how users log in or maintain sessions.
@@ -22,9 +23,9 @@ The subject forbids using automated exploitation scripts like **sqlmap**. You ar
 * **Dirbuster / Gobuster (or similar):** Useful for "forced browsing" to find directories or files that aren't linked on the main page.
 * **Command Line (curl/wget):** Sometimes interacting with the site via the terminal reveals more than a graphical browser.
 
-## 3. Tips for Your Mindset
+## 3. Tips
 
-* **Be a "Scraper":** One of the challenges involves sifting through thousands of files. Learning a bit of **Python** or **Shell scripting** to automate the *search* (not the exploit) will save you hours.
+* Learning a bit of **Python** or **Shell scripting** to automate the *search* (not the exploit) will save you hours.
 * **Check the "Obvious":** Look for standard files that shouldn't be public, like `.htaccess`, `robots.txt`, or backup files (e.g., `.bak`, `~`).
 * **Read the Metadata:** Sometimes information is hidden in image headers or within the comments of a page.
 * **Documentation is Key:** Your turn-in requires a specific folder structure for each breach, including a `flag` file and a `Resources` folder containing everything needed to prove your resolution.
@@ -48,7 +49,7 @@ qemu-system-x86_64 -cdrom Darkly_i386.iso -m 1024 -cpu qemu64 -netdev user,id=ne
 
 Here is a breakdown of what each part of that command is doing:
 
-Command Breakdown
+Command Breakdown:
 qemu-system-x86_64: This starts the emulator for a 64-bit Intel/AMD architecture. Even though the ISO is i386 (32-bit), this version is backward compatible and generally more stable on M1 Macs.
 -cdrom Darkly_i386.iso: This tells the virtual machine to treat your Darkly_i386.iso file as a physical CD inserted into the drive.
 -m 1024: This allocates 1024 MB (1 GB) of RAM to the virtual machine. This is plenty for a simple security audit project like Darkly.
@@ -82,9 +83,11 @@ To find those, you might eventually need a "fuzzer" or "wordlist" tool like ffuf
 
 ## 1st Flag
 
-On the main page click on `© BornToSec` on the bottom. The link opens to a weird page with audio. Then click on the Members top link and enter 5:
+On the main page click on the Members top link.
 
-[](http://localhost:8080/?page=member&id=5&Submit=Submit#)
+In this page: `http://localhost:8080/index.php?page=member`
+you can look member by id but it is open to sql injection.
+See [](1-Member_sql_injection_users/readme.md)
 
 ## 2nd Flag
 in the main page html and css. Look in the html and look for flag:

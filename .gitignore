@@ -1,3 +1,6 @@
 .DS_Store
 localhost:8080/*
 darkly_crawler*.iso
+**/*/darkly_crawler/*
+SecLists-master/*
+Darkly_i386.iso
