@@ -82,8 +82,3 @@ in https://crackstation.net i get the flag for the hash which is
 `albatroz`
 
 - **OWASP A01:2021 - Broken Access Control**: Insufficient authorization checks
-
-- **Client-side validation only**: HTTP headers are completely under client control - never trust them
-- **No real authentication**: Should use sessions, tokens, or server-side validation
-- **Hint in comments**: The hints themselves reveal the exact bypass mechanism
-

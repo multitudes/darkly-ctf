@@ -43,3 +43,36 @@ I tried to change the redirect and it did not redirect. Instead it gave me the f
 ```txt
 GOOD JOB HERE IS THE FLAG : B9E775A0291FED784A2D9680FCFAD7EDD6B8CDF87648DA647AAF4BBA288BCAB3
 ```
+
+## How We Found It
+
+The footer contains three safe redirect links:
+```html
+<li><a href="index.php?page=redirect&site=facebook" class="icon fa-facebook"></a></li>
+<li><a href="index.php?page=redirect&site=twitter" class="icon fa-twitter"></a></li>
+<li><a href="index.php?page=redirect&site=instagram" class="icon fa-instagram"></a></li>
+```
+
+These work fine (HTTP 302 redirect). But when we try an invalid site:
+```bash
+curl -i "http://localhost:8080/index.php?page=redirect&site=instagramssss"
+```
+
+Instead of redirecting or erroring, the server returns the flag!
+
+## The Bug
+
+The backend probably has logic like this:
+```php
+if ($site == 'facebook' || $site == 'twitter' || $site == 'instagram') {
+    // Safe redirects - do proper redirect
+    redirect_to(get_approved_url($site));
+} else {
+    // Oops! They forgot to handle invalid input properly
+    // Instead of safely rejecting it, this shows debug/flag info
+    echo "Good job here is the flag...";
+}
+```
+
+
+curl -i -b "I_am_admin=b326b5062b2f0e69046810717534cb09" "http://localhost:8080/index.php?page=admin"
