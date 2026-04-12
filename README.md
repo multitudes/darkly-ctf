@@ -199,3 +199,25 @@ page=redirect&site=...
 page=upload
 page= parameter tampering for inclusion
 feedback/signin/search forms for reflected or stored XSS
+
+
+1. What is Upgrade-Insecure-Requests: 1?
+This is a header your browser sends to tell the server: "Hey, if you have an HTTPS version of this page, please send me there instead of the insecure HTTP version."
+
+The 1 acts like a "True" flag.
+
+In the context of Darkly, this usually doesn't do much because the CTF VM is likely running on old-school HTTP (port 80).
+
+It's basically your browser being proactive about security, trying to avoid being "sniffed" on a public network.
+
+2. What is detectportal.firefox.com?
+This is Firefox checking for a Captive Portal.
+
+Have you ever joined hotel or airport Wi-Fi, and a "Login/Agree" page pops up before you can use the internet? Firefox (and macOS/Windows/Android) detects that by trying to fetch a very specific, simple file from a known server (like canonical.html).
+
+If it gets the file: It knows the internet is "open" and working.
+
+If it gets a redirect or a 404: It knows you are trapped behind a "Captive Portal" (like a hotel login) and will pop up a notification asking you to log in.
+
+Why are you seeing so many of them?
+Because you are using a Proxy (Burp) and a VM (Darkly), Firefox is getting a bit confused. It sees that it’s not reaching the "real" internet normally, so it keeps re-checking to see if the network status has changed.
