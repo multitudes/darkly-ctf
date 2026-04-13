@@ -18,7 +18,8 @@ Now have credentials: `root:qwerty123@`
 ## First Attempt (Failed)
 
 Tried the signin page:
-```
+
+```txt
 http://localhost:8080/?page=signin
 ```
 
@@ -38,17 +39,17 @@ Browser showed auth popup. Entered credentials. Got access and flag:
 d19b4823e0d5600ceed56d5e896ef328d7a2b9e7ac7e80f4fcdb9b10bcb3e7ff
 ```
 
-## How It Works
-
-Modern browsers strip credentials from URLs (security policy), so the flow is:
+## How the old style HTTP Basic auth Works
 
 1. **Browser requests** without credentials:
+
 ```
 GET /admin/ HTTP/1.1
 ```
 
 2. **Server responds** with 401 challenge:
-```
+
+```http
 HTTP/1.1 401 Unauthorized
 WWW-Authenticate: Basic realm="admin"
 ```
@@ -56,7 +57,8 @@ WWW-Authenticate: Basic realm="admin"
 3. **Browser shows auth popup** (because of `WWW-Authenticate` header)
 
 4. **Browser encodes credentials** in Base64 and resends:
-```
+
+```http
 GET /admin/ HTTP/1.1
 Authorization: Basic cm9vdDpxd2VydHkxMjNA
 ```
@@ -66,13 +68,6 @@ Base64 is **encoding only** (not encryption) - trivially reversible:
 echo -n "root:qwerty123@" | base64
 # cm9vdDpxd2VydHkxMjNA
 ```
-
-## Why It's Vulnerable
-
-1. **Exposed credentials file** - `.htpasswd` shouldn't be web-accessible
-2. **Weak password** - MD5 is crackable (should use bcrypt/scrypt)
-3. **HTTP not HTTPS** - Basic Auth over HTTP exposes credentials to network sniffing
-4. **Default/predictable username** - "root" is obvious
 
 ## OWASP
 

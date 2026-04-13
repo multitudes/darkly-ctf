@@ -1,6 +1,7 @@
 # Breach #5: Cookie-Based Authentication Bypass
 
 ## Vulnerability
+
 The application uses client-side cookies for authentication without server-side validation, allowing trivial privilege escalation.
 
 ## Discovery

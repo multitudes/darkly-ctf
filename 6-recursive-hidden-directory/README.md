@@ -12,7 +12,8 @@ http://localhost:8080/.hidden/
 ```
 
 Looks like:
-```
+
+```txt
 Index of /.hidden/
 
 ../
