@@ -14,7 +14,7 @@ alert('Congratulaton!! The flag is : b12c4b2cb8094750ae121a676269aa9e2872d07c06e
 
 In Linux-based systems, /etc/passwd is a plain-text file that contains a list of every user account on the system.
 
-Is it really a "Password" file? No, but it used to be.  
+Is it a Password file? No, but it used to be.  
 Historically: In the early days of Unix, this file did contain the encrypted password hashes.
 
 In Modern Systems: For security, hashes were moved to a second file called /etc/shadow, which is only readable by the "root" user.

