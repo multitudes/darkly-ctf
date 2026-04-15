@@ -73,6 +73,3 @@ if ($site == 'facebook' || $site == 'twitter' || $site == 'instagram') {
     echo "Good job here is the flag...";
 }
 ```
-
-
-curl -i -b "I_am_admin=b326b5062b2f0e69046810717534cb09" "http://localhost:8080/index.php?page=admin"
