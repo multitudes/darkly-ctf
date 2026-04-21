@@ -71,6 +71,16 @@ Flag: 03a944b434d5baff05f46c4bede5792551a2595574bcafc9a6e25f67c382ccaa
 Location: /index.php?page=survey
 Vulnerability: Parameter tampering (sujet=42&valeur=42)
 
+### 13 - Sign-in Brute Force
+Flag: b3a6e43ddf8b4bbb4125e5e7d23040433827759d4de1c04ea63907479a80a6b2
+Location: /index.php?page=signin
+Vulnerability: Weak credentials brute-forced (admin/shadow)
+
+### 14 - Object Tag Data URI Injection
+Flag: 928d819fc19405ae09921a2b71227bd9aba106f9d2d37ac412e9e5a750f1506d
+Location: /index.php?page=media&src=
+Vulnerability: Unsanitized `src` parameter injected into `<object data="">` tag; base64-encoded `data:` URI bypasses filter
+
 
 ## 1. Essential Concepts
 

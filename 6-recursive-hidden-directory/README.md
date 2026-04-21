@@ -6,13 +6,13 @@
 
 ## Discovery
 
-```
+```txt
 Disallow: /.hidden  
 ```
 
 Visited the directory and found it's full of recursively nested random-named folders, each containing more folders.
 
-```
+```txt
 http://localhost:8080/.hidden/
 ```
 
@@ -43,7 +43,7 @@ The scraper took a few minutes to finish traversing the entire structure.
 
 ## Result
 
-```
+```txt
 Hey, here is your flag : d5eec3ec36cf80dce44a896f961c1831a05526ec215693c8f2c39543497d4466
 ```
 
