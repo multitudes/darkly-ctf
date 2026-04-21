@@ -1,6 +1,7 @@
 # Open Redirects
 
-The problem with an open redirect is that the application lets user-controlled input decide where the browser goes next.
+## Vulnerability Type
+**OWASP A04:2021 - Insecure Design** (CWE-601: URL Redirection to Untrusted Site)
 
 Typical example:
 
@@ -38,7 +39,9 @@ A safe implementation usually does one of these:
 - map friendly names to hardcoded URLs on the server
 - reject full external URLs from user input
 
-In your Darkly case, the interesting test is whether `site` accepts only known values or whether you can force an arbitrary destination.
+## The Vulnerability
+
+The problem with an open redirect is that the application lets user-controlled input decide where the browser goes next.
 
 I tried to change the redirect and it did not redirect. Instead it gave me the flag!
 
@@ -74,4 +77,12 @@ if ($site == 'facebook' || $site == 'twitter' || $site == 'instagram') {
     // Instead of safely rejecting it, this shows debug/flag info
     echo "Good job here is the flag...";
 }
+```
+
+## Remediation
+1. **Whitelist allowed destinations** – Only permit explicitly approved redirect targets
+2. **Validate URL scheme** – Reject URLs starting with `//`, `http://`, `https://` from user input
+3. **Use relative URLs only** – If redirecting, keep redirects within your domain
+4. **Validate domain** – If external redirects are needed, check the redirect target's domain against a whitelist
+5. **Log redirect attempts** – Monitor suspicious redirect patterns for phishing or abuse detection
 ```

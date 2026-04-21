@@ -1,7 +1,10 @@
-# Member_Sql_Injection
+# Member SQL Injection - Users
 
-found md5 hash: 5ff9d0165b4f92b14994e5c685cdce28
-which is FortyTwo when cracked with the md5 hash
+## Vulnerability Type
+**OWASP A03:2021 - Injection** (CWE-89: Improper Neutralization of Special Elements used in an SQL Command)
+
+## Summary
+Found MD5 hash: `5ff9d0165b4f92b14994e5c685cdce28` → cracks to `FortyTwo`
 
 ## The members page
 
@@ -171,3 +174,10 @@ Surname : 5ff9d0165b4f92b14994e5c685cdce28
 That 32-character string (`5ff9d0165b4f92b14994e5c685cdce28`) is an **MD5 hash**. 
 
 Go to [CrackStation](https://crackstation.net/) and paste `5ff9d0165b4f92b14994e5c685cdce28` → `FortyTwo`
+
+## Remediation
+1. **Use parameterized queries (prepared statements)** – Never concatenate user input into SQL strings
+2. **Input validation** – Whitelist allowed ID formats (e.g., numeric IDs only)
+3. **Principle of least privilege** – Database user should have minimal required permissions
+4. **Error handling** – Hide detailed error messages from users (log internally only)
+5. **WAF/IDS** – Deploy Web Application Firewall to detect SQL injection patterns

@@ -1,6 +1,9 @@
 # Member SQL Injection - Images
 
-## Vulnerability
+## Vulnerability Type
+**OWASP A03:2021 - Injection** (CWE-89: SQL Injection with UNION-based extraction)
+
+## Overview
 SQL injection on the image search page: `http://localhost:8080/index.php?page=searchimg`
 
 ## Discovery
@@ -87,3 +90,11 @@ echo -n "albatroz" | shasum -a 256
 ```
 
 **Flag:** `f2a29020ef3132e01dd61df97fd33ec8d7fcd1388cc9601e7db691d17d4d6188`
+
+## Remediation
+1. **Use parameterized queries** – Prevent SQL syntax from user input
+2. **Input validation** – Restrict ID to numeric values only
+3. **Limit output columns** – Only expose necessary data, not entire database schema
+4. **Restrict information_schema access** – Non-admin database users should not access metadata
+5. **Query timeouts** – Prevent expensive enumeration queries from running indefinitely
+6. **Monitor slow queries** – Alert on suspicious UNION or subquery patterns

