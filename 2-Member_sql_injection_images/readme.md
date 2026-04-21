@@ -70,7 +70,7 @@ Query the actual table:
 
 Returns:
 ```
-ID: 1 UNION SELECT comment, title FROM list_images WHERE id=5
+1 UNION SELECT comment, title FROM list_images WHERE id=5
 Title: Hack me ?
 Url : If you read this just use this md5 decode lowercase then sha256 to win this flag ! : 1928e8083cf461a51303633093573c46
 ```

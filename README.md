@@ -295,3 +295,5 @@ Because you are using a Proxy (Burp) and a VM (Darkly), Firefox is getting a bit
 https://github.com/digininja/DVWA  
 https://en.wikipedia.org/wiki/Damn_Vulnerable_Web_Application. 
 https://docs.metasploit.com/docs/using-metasploit/getting-started/nightly-installers.html  
+
+https://code.claude.com/docs/en/common-workflows

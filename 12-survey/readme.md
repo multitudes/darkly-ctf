@@ -1,6 +1,5 @@
 # the survey page
 
-
 Examining the html page of the survey I did not see anything suspicious. I used burp to intercept the post request after changing some data in the page.
 
 I saw that it sends the post request as

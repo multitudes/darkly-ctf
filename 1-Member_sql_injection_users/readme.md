@@ -100,7 +100,8 @@ The table USERS looks interesting!
 originally the query would probably be like this: `SELECT first_name, last_name FROM users WHERE user_id = [MY_INPUT];` so we add this together:
 
 ```sql
-SELECT first_name, last_name FROM users WHERE user_id = 1 UNION SELECT 1, column_name FROM information_schema.columns WHERE table_name=users;
+SELECT first_name, last_name FROM users WHERE user_id = 
+1 UNION SELECT 1, column_name FROM information_schema.columns WHERE table_name=users;
 ```
 
 But this doesnt work, because in that specific query, users needs to be treated as a string value, not as an identifier. We need to use `'users'`
@@ -169,6 +170,4 @@ Surname : 5ff9d0165b4f92b14994e5c685cdce28
 
 That 32-character string (`5ff9d0165b4f92b14994e5c685cdce28`) is an **MD5 hash**. 
 
-1. Go to [CrackStation](https://crackstation.net/) and paste `5ff9d0165b4f92b14994e5c685cdce28` → `FortyTwo`
-2. That's your flag!
-
+Go to [CrackStation](https://crackstation.net/) and paste `5ff9d0165b4f92b14994e5c685cdce28` → `FortyTwo`

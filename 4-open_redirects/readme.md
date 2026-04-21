@@ -14,6 +14,8 @@ If the server only checks “take the `site` parameter and redirect there”, an
 index.php?page=redirect&site=https://evil.example
 ```
 
+index.php?page=redirect&site=https://www.example.com
+
 Why that is dangerous:
 
 1. It makes a malicious link look trustworthy.

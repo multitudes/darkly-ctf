@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
-BASE_URL = "http://localhost:8080/.hidden/"
+BASE_URL = "http://localhost:8081/.hidden/"
 
 # the common messages to ignore
 TROLL_MESSAGES = [
