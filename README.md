@@ -1,6 +1,6 @@
 # darkly-ctf
 
-A ctf for web security
+A ctf 42 project for web security. Part of the outer core curriculum.
 
 The goal is to find **14 different breaches** on a provided virtual machine, each rewarding you with a "flag". Per the subject, you must be able to explain the "how" and "why" of every exploit, making understanding the underlying concept more important than just getting the flag.
 
