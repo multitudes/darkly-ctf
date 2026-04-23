@@ -4,6 +4,16 @@
 
 **OWASP A01:2021 - Broken Access Control** (CWE-552: Files or Directories Accessible to External Parties)
 
+## Summary
+
+page: `http://localhost:8080/.hidden/`
+commands:
+```bash
+# Run the recursive scraper
+uv run --with requests --with beautifulsoup4 scraper.py
+```
+No curl one-liner — requires the Python scraper to recursively crawl hundreds of nested directories.
+
 ## Discovery
 
 ```txt

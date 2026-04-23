@@ -1,5 +1,15 @@
 # Breach #3: Broken Access Control - HTTP Header Spoofing
 
+## Summary
+
+page: `http://localhost:8080/index.php?page=b7e44c7a40c5f80139f0a50f3650fb2bd8d00b0d24667c4c2ca32c88e13b758f`
+commands:
+```bash
+curl -H "Referer: https://www.nsa.gov/" \
+     -H "User-Agent: ft_bornToSec" \
+     "http://localhost:8080/index.php?page=b7e44c7a40c5f80139f0a50f3650fb2bd8d00b0d24667c4c2ca32c88e13b758f"
+```
+
 ## Vulnerability
 The application attempts to restrict access to a hidden page by checking HTTP headers, but these are trivially spoofed client-side values.
 

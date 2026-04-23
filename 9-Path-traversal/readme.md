@@ -1,5 +1,15 @@
 # Path traversal
 
+## Summary
+
+page: `http://localhost:8080/index.php?page=`
+commands:
+```bash
+curl "http://localhost:8080/index.php?page=../../../../../../../etc/passwd"
+```
+
+## Details
+
 When uploading the php file in the previous exploit i tried to execute it but always got "nope" as alert when trying a path traversal. I thought maybe i need to try somewhere else... So i did a get req in burp, the admin cookie did not matter this time but the amount of ../ did matter.
 
 ```http

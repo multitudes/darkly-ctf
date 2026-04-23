@@ -3,7 +3,16 @@
 ## Vulnerability Type
 **OWASP A04:2021 - Insecure Design** (CWE-601: URL Redirection to Untrusted Site)
 
-Typical example:
+## Summary
+
+page: `http://localhost:8080/index.php?page=redirect&site=`
+commands:
+```bash
+curl -i "http://localhost:8080/index.php?page=redirect&site=anything_invalid"
+```
+Just change `site=` to any value not in the whitelist (facebook, twitter, instagram).
+
+## Typical example:
 
 ```txt
 index.php?page=redirect&site=facebook

