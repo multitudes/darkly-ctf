@@ -6,7 +6,7 @@
 
 ## Summary
 
-page: `http://localhost:8080/.hidden/`
+page: `http://localhost:8081/.hidden/`
 commands:
 ```bash
 # Run the recursive scraper
@@ -14,13 +14,27 @@ uv run --with requests --with beautifulsoup4 scraper.py
 ```
 No curl one-liner — requires the Python scraper to recursively crawl hundreds of nested directories.
 
-## Discovery
+trying with wget fails because wget reads the robot.txt and does not crawl the .hidden directory. Still can be run with 
+```bash
+# -r = recursive (follow links into subdirectories)
+# -np = no-parent (stay inside /.hidden/, don't go up)
+# -e robots=off = ignore robots.txt rules
+# -P = save files to this directory
+wget -r -np -e robots=off http://localhost:8081/.hidden/ -P /tmp/hidden_mirror
+# then 
+grep -r "flag" /tmp/hidden_mirror
+```
+should take 3 minutes to finish. Plus 4 secs for grep.
+
+## Discovery in robot.txt
 
 ```txt
-Disallow: /.hidden  
+User-agent: *
+Disallow: /whatever
+Disallow: /.hidden
 ```
 
-Visited the directory and found it's full of recursively nested random-named folders, each containing more folders.
+Visited the .hidden directory and found it's full of recursively nested random-named folders, each containing more folders.
 
 ```txt
 http://localhost:8080/.hidden/

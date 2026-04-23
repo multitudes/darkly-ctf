@@ -5,13 +5,14 @@
 
 ## Summary
 
-page: `http://localhost:8080/index.php?page=redirect&site=`
+page: `http://localhost:8081/index.php?page=redirect&site=`
 commands:
 ```bash
-curl -i "http://localhost:8080/index.php?page=redirect&site=anything_invalid"
+curl -i "http://localhost:8081/index.php?page=redirect&site=anything_invalid"
 ```
 Just change `site=` to any value not in the whitelist (facebook, twitter, instagram).
 
+flag is B9E775A0291FED784A2D9680FCFAD7EDD6B8CDF87648DA647AAF4BBA288BCAB3
 ## Typical example:
 
 ```txt

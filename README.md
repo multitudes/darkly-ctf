@@ -300,6 +300,23 @@ If it gets a redirect or a 404: It knows you are trapped behind a "Captive Porta
 Why are you seeing so many of them?
 Because you are using a Proxy (Burp) and a VM (Darkly), Firefox is getting a bit confused. It sees that it’s not reaching the "real" internet normally, so it keeps re-checking to see if the network status has changed.
 
+## EXTRA - The `/tmp` directory & the sticky bit
+
+`/tmp` is a shared temporary directory — any user can create files there. Files are typically auto-deleted on reboot.
+
+```bash
+ls -ld /tmp
+# drwxrwxrwt  22 root  wheel  704 Apr 23 14:00 /tmp
+```
+
+The **`t`** at the end of the permissions (`rwxrwxrwt`) is the **sticky bit**.
+
+Since `/tmp` is world-writable, without the sticky bit any user could delete any other user's files. With the sticky bit set, **only the file's owner** (or root) can delete or rename files — even though the directory is writable by everyone.
+
+```bash
+chmod +t /tmp       # add sticky bit
+chmod 1777 /tmp     # the "1" prefix = sticky bit
+```
 
 ## links
 https://github.com/digininja/DVWA  
