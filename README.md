@@ -10,11 +10,11 @@ To start the vm contained in the iso file on the linus system on `localhost:8081
 qemu-system-x86_64 -m 1G -drive file=Darkly_i386.iso,format=raw,media=cdrom -boot d -net nic -net user,hostfwd=tcp::8081-:80
 ```
 
-If on a mac, you can use the following command:  
+If on a mac with apple silicon, you can use the following command:  
 
 ```bash
-
-
+qemu-system-x86_64 -cdrom Darkly_i386.iso -m 1024 -cpu qemu64 -netdev user,id=net0,hostfwd=tcp::8080-:80 -device e1000,netdev=net0
+```
 
 ## links
 
