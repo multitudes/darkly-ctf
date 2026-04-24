@@ -4,6 +4,11 @@ A ctf 42 project for web security. Part of the outer core curriculum.
 
 The goal is to find **14 different breaches** on a provided virtual machine, each rewarding you with a "flag". Per the subject, you must be able to explain the "how" and "why" of every exploit, making understanding the underlying concept more important than just getting the flag.
 
+To start the vm contained in the iso file on the linus system on `localhost:8081`:  
+```
+qemu-system-x86_64 -m 1G -drive file=Darkly_i386.iso,format=raw,media=cdrom -boot d -net nic -net user,hostfwd=tcp::8081-:80
+```
+
 ## links
 The freecodecamp youtube course it is a good starting point. It is old but so is the 42 project:  
 https://www.freecodecamp.org/news/web-app-penetration-testing-full-course/  
