@@ -5,7 +5,7 @@
 
 ## Summary
 
-page: `http://localhost:8080/index.php?page=media&src=`
+page: `http://localhost:8081/index.php?page=media&src=`
 commands:
 
 ```bash
@@ -75,7 +75,6 @@ echo -n '<script>alert(1)</script>' | base64
 | `src=data:text/html,<script>alert(1)</script>` | ❌ "WrongAnswer" — raw HTML is filtered |
 | `src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==` | ✅ Flag revealed — base64 bypasses the filter |
 
-## Why It's Dangerous
 
 - The `<object>` tag can load arbitrary content types (HTML, SVG, Flash, etc.)
 - `data:` URIs allow embedding inline content without fetching from a server
@@ -84,11 +83,22 @@ echo -n '<script>alert(1)</script>' | base64
 
 ## Remediation
 
-1. **Whitelist allowed `src` values** — Only accept known, predefined values (`nsa`, `prism`, etc.) rather than passing raw input to the `data` attribute
-2. **Never embed user input in `<object data="">`** — This is equivalent to injecting into an `<iframe src="">`
-3. **Validate URI scheme** — Block `data:`, `javascript:`, and `vbscript:` URI schemes
-4. **Content Security Policy (CSP)** — Use `object-src 'none'` to prevent object tag abuse entirely
-5. **Output encoding** — HTML-encode all user input before inserting it into HTML attributes
+1. **Use a strict allowlist for media sources** – Never pass raw `src` input into HTML. Only accept predefined IDs (`nsa`, `prism`, etc.) and map them server-side to fixed file paths.
+
+2. **Avoid `<object>` for user-controlled content** – If the feature is image display, use `<img>` with server-controlled URLs. Do not allow users to control `data`/`src` of embeddable contexts.
+
+3. **Block dangerous URI schemes** – Explicitly reject `data:`, `javascript:`, and `vbscript:` schemes, and only allow expected schemes (`https:`) where applicable.
+
+4. **Enforce strong Content Security Policy (CSP)** – Add policy rules that disable risky embeds:
+	- `object-src 'none'`
+	- `frame-src 'none'`
+	- `base-uri 'self'`
+
+5. **Apply context-aware output encoding** – HTML-escape any dynamic value rendered into attributes to prevent attribute injection (`"`, `'`, `>` edge cases).
+
+6. **Do not rely on keyword blacklists** – Filtering only for literal `<script>` is bypassable (base64, encoding tricks, SVG/script variants). Prefer allowlist validation + safe rendering.
+
+7. **Add monitoring and alerting** – Log blocked payloads and repeated suspicious `src` values to detect probing and attempted XSS exploitation.
 
 ======================
 
@@ -102,11 +112,7 @@ http://localhost:8081/index.php?page=media&src=nsa
 i only get 
 File: nsa_prism.jpg
 
-but no image. what that mean?
-
->>>>>>>>>>>>>>>>
-
-Great question — let me break it down step by step.
+but no image?
 
 What's happening with page=media&src=nsa
 When you visit that URL, the server generates this HTML:
@@ -118,10 +124,8 @@ The server takes your src=nsa input and maps it to nsa_prism.jpg, then sticks it
 
 Why you see "File: nsa_prism.jpg" but no image: The <object> tag tries to load from http://10.0.2.15/images/nsa_prism.jpg — that's the VM's internal IP. Since you're accessing the VM via localhost:8081 (port-forwarded), your browser can't reach 10.0.2.15 directly. So the object fails to load, and you only see the text label.
 
-The <object> tag — why it's dangerous
+## The <object> tag 
 The <object> tag is like a powerful <iframe>. It can embed anything — images, HTML pages, PDFs, even scripts. The key attribute is data=, which tells it what to load.
-
-Think of it as:
 
 <object data="[ANYTHING YOU WANT TO LOAD]"></object>
 The exploit — step by step
@@ -137,15 +141,14 @@ A data: URI is a way to embed content inline instead of fetching it from a URL:
 data:text/html,<h1>Hello</h1>
 This doesn't load a file from anywhere — the content IS the URL. It's like writing a tiny webpage right inside the address bar.
 
-3. First attempt — raw HTML (blocked ❌)
+3. First attempt — raw HTML (blocked)
 src=data:text/html,<script>alert(1)</script>
 Server sees <script> in the input → rejects it → shows "WrongAnswer.gif" and the alert(1) but no flag!!!
 
-4. The bypass — base64 encoding (works ✅)
+4. The bypass — base64 encoding 
 Base64 is just a way to represent data as letters/numbers. The server's filter looks for <script> in the raw text, but it doesn't decode base64 to check:
 
-bash
-# This is <script>alert(1)</script> encoded as base64:
+### This is <script>alert(1)</script> encoded as base64:
 
 ```
 echo -n '<script>alert(1)</script>' | base64
@@ -168,6 +171,4 @@ nsa                →  Loads an image (normal use)
 data:text/html,... →  Loads arbitrary HTML/JS (the vulnerability)
 base64 encoding    →  Hides the payload from the server's filter (the bypass)
 The core issue: the server trusts user input and puts it directly into a dangerous HTML attribute without proper validation. It tries to filter <script> tags, but base64 encoding trivially defeats that.
-
-
 

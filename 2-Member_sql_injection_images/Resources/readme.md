@@ -38,7 +38,7 @@ Inject to discover table names:
 1 UNION SELECT 1, table_name FROM information_schema.tables WHERE table_schema=database()
 ```
 
-Result reveals table `Member_images` exists.
+Result reveals table `list_images` exists.
 
 ## How UNION Injection Works
 
@@ -112,5 +112,3 @@ echo -n "albatroz" | shasum -a 256
 2. **Input validation** – Restrict ID to numeric values only
 3. **Limit output columns** – Only expose necessary data, not entire database schema
 4. **Restrict information_schema access** – Non-admin database users should not access metadata
-5. **Query timeouts** – Prevent expensive enumeration queries from running indefinitely
-6. **Monitor slow queries** – Alert on suspicious UNION or subquery patterns

@@ -9,7 +9,7 @@ commands: In the guestbook form, enter in the **Name** field:
 ```txt
 test
 # and in the **Message** field:
-<script>alert('XSS')</script>
+<script>alert("XSS")</script>
 ```
 
 Or via curl:
@@ -31,7 +31,7 @@ This is a **Stored XSS** (also called Persistent XSS). There are 3 types:
 
 This guestbook is **Stored XSS** because the `<script>` tag is saved in the database and rendered for every visitor who loads the page.
 
-I entered a <script>alert('XSS')</script in the comment box and got the flag
+I entered a <script>alert("XSS")</script in the comment box and got the flag
 
 The flag is : 0fbb54bbf7d099713ca4be297e1bc7da0173d8b3c21c1811b916a3a86652724e
 

@@ -41,6 +41,20 @@ while IFS= read -r pass; do
 done < Most-Popular-Letter-Passes.txt
 ```
 
+ The script reads passwords from a file, tries each one against the login endpoint, and stops when the response contains the word flag.
+
+IFS= read -r pass
+
+IFS= sets the input field separator to empty for that one read, so leading and trailing whitespace are preserved.
+read reads one line from the file into the variable pass.
+-r tells read not to treat backslashes as escape characters, so the password is read literally.
+So this is a safe way to read each line exactly as written, which matters if a password contains spaces, tabs, or backslashes.
+
+grep -i
+
+-i makes the match case-insensitive.
+-q means quiet mode.
+
 I got the flag using `shadow` as the password:
 ```
 http://localhost:8081/index.php?page=signin&username=admin&password=shadow&Login=Login#

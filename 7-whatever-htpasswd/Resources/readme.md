@@ -16,9 +16,7 @@ curl http://localhost:8081/whatever/htpasswd
 
 # 2. Crack MD5 on crackstation.net → qwerty123@
 
-# 3. Login to /admin/ with basic auth + form POST - -s (silent) hides the progress bar - -d = data. It sends the string as the POST request body, like submitting a form. It also automatically sets Content-Type: application/x-www-form-urlencoded (the standard form encoding).
-curl -s -X POST "http://localhost:8081/admin/" \
-     -d "username=root&password=qwerty123@&Login=Login" | grep -i flag
+# 3. Login to /admin/ with the credentials!
 ```
 
 ## Found `/whatever/` directory (listed in robots.txt). Inside was an exposed `.htpasswd` file containing:
@@ -54,7 +52,7 @@ d19b4823e0d5600ceed56d5e896ef328d7a2b9e7ac7e80f4fcdb9b10bcb3e7ff
 1. **Secure file storage** – Never store `.htpasswd`, `.env`, or config files in document root
 2. **Use strong password hashing** – Replace MD5 with bcrypt, scrypt, Argon2, or PBKDF2 with high work factors
 3. **Enforce strong passwords** – Minimum 12 characters, complexity requirements, no dictionary words
-4. **Use HTTPS only** – Encrypt all credentials in transit (HSTS headers)
+4. **Use HTTPS only** – Encrypt all credentials in transit (HSTS headers, HSTS headers are HTTP response headers that tell a browser to only use HTTPS for a site, even if the user types HTTP.)
 5. **Rotate credentials** – Change default/backup credentials regularly
 6. **Restrict directory access** – Use `.htaccess` or web server ACLs to block external access to config directories
 7. **Monitor failed auth attempts** – Alert on brute force patterns

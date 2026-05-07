@@ -23,8 +23,11 @@ trying with wget fails because wget reads the robot.txt and does not crawl the .
 wget -r -np -e robots=off http://localhost:8081/.hidden/ -P /tmp/hidden_mirror
 # then 
 grep -r "flag" /tmp/hidden_mirror
+
+# or a quiet -q one liner with &&
+wget -q -r -np -e robots=off http://localhost:8081/.hidden/ -P /tmp/hidden_mirror && grep -r "flag" /tmp/hidden_mirror
 ```
-should take 3 minutes to finish. Plus 4 secs for grep.
+The first two should take 3 minutes to finish. Plus 4 secs for grep. But the last is very fast because there is no terminal output!
 
 ## Discovery in robot.txt
 

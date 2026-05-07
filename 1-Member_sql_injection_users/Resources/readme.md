@@ -5,7 +5,7 @@
 
 ## Summary
 
-page: `http://localhost:8080/index.php?page=member`
+page: `http://localhost:8081/index.php?page=member`
 commands:
 ```sql
 1
@@ -21,7 +21,7 @@ Found MD5 hash: `5ff9d0165b4f92b14994e5c685cdce28` → cracks to `FortyTwo`
 
 ## The members page
 
-In this page: `http://localhost:8080/index.php?page=member`
+In this page: `http://localhost:8081/index.php?page=member`
 you can look member by id but it is open to sql injection.
 
 entering a random text i get:
@@ -193,4 +193,3 @@ Go to [CrackStation](https://crackstation.net/) and paste `5ff9d0165b4f92b14994e
 2. **Input validation** – Whitelist allowed ID formats (e.g., numeric IDs only)
 3. **Principle of least privilege** – Database user should have minimal required permissions
 4. **Error handling** – Hide detailed error messages from users (log internally only)
-5. **WAF/IDS** – Deploy Web Application Firewall to detect SQL injection patterns

