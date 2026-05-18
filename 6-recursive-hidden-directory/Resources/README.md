@@ -7,16 +7,21 @@
 ## Summary
 
 page: `http://localhost:8081/.hidden/`
-commands:
 
-```bash
-# Run the recursive scraper
-uv run --with requests --with beautifulsoup4 scraper.py
+Visited the .hidden directory and found it's full of recursively nested random-named folders, each containing more folders.
+
+```txt
+Index of /.hidden/
+
+../
+amcbevgondgcrloowluziypjdh/                        29-Jun-2021 18:15                   -
+bnqupesbgvhbcwqhcuynjolwkm/                        29-Jun-2021 18:15                   -
+ceicqljdddshxvnvdqzzjgddht/                        29-Jun-2021 18:15                   -
+... (many more)
+README       
 ```
 
-No curl one-liner — requires the Python scraper to recursively crawl hundreds of nested directories.
-
-trying with wget fails because wget reads the robot.txt and does not crawl the .hidden directory. Still can be run with:
+Trying to make a mirror with wget at first fails because wget reads the robot.txt and does not crawl the .hidden directory. Still can be run with `-e robots=off`:
 
 ```bash
 # -r = recursive (follow links into subdirectories)
@@ -40,37 +45,6 @@ User-agent: *
 Disallow: /whatever
 Disallow: /.hidden
 ```
-
-Visited the .hidden directory and found it's full of recursively nested random-named folders, each containing more folders.
-
-```txt
-http://localhost:8080/.hidden/
-```
-
-Looks like:
-
-```txt
-Index of /.hidden/
-
-../
-amcbevgondgcrloowluziypjdh/                        29-Jun-2021 18:15                   -
-bnqupesbgvhbcwqhcuynjolwkm/                        29-Jun-2021 18:15                   -
-ceicqljdddshxvnvdqzzjgddht/                        29-Jun-2021 18:15                   -
-... (many more)
-README       
-```
-
-## The Problem
-
-Too many folders to click through manually. Wrote a Python scraper to recursively crawl all the nested directories and look for the flag.
-
-Run with:
-
-```bash
-uv run --with requests --with beautifulsoup4 scraper.py
-```
-
-The scraper took a few minutes to finish traversing the entire structure.
 
 ## Result
 

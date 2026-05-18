@@ -13,6 +13,7 @@ Page: `http://localhost:8081/index.php?page=signin`
 Credentials: `admin` / `shadow` (brute-forced)
 
 Commands:
+
 ```bash
 curl "http://localhost:8081/index.php?page=signin&username=admin&password=shadow&Login=Login"
 ```
@@ -41,7 +42,7 @@ while IFS= read -r pass; do
 done < Most-Popular-Letter-Passes.txt
 ```
 
- The script reads passwords from a file, tries each one against the login endpoint, and stops when the response contains the word flag.
+The script reads passwords from a file, tries each one against the login endpoint, and stops when the response contains the word flag.
 
 IFS= read -r pass
 

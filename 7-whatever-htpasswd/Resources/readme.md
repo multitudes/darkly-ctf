@@ -21,7 +21,9 @@ curl http://localhost:8081/whatever/htpasswd
 # 3. Login to /admin/ with the credentials!
 ```
 
-## Found `/whatever/` directory (listed in robots.txt). Inside was an exposed `.htpasswd` file containing:
+## Found `/whatever/` directory (listed in robots.txt)
+
+Inside was an exposed `.htpasswd` file containing:
 
 ```txt
 root:437394baff5aa33daa618be47b75cb49
@@ -40,6 +42,7 @@ Now have credentials: `root:qwerty123@`
 Tried `/admin/` directory. 
 
 Browser showed auth popup. Entered credentials. Got access and flag:
+
 ```
 d19b4823e0d5600ceed56d5e896ef328d7a2b9e7ac7e80f4fcdb9b10bcb3e7ff
 ```
