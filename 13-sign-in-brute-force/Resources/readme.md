@@ -12,22 +12,22 @@ Page: `http://localhost:8081/index.php?page=signin`
 
 Credentials: `admin` / `shadow` (brute-forced)
 
-Commands:
+With the hydra tool:
 
 ```bash
-curl "http://localhost:8081/index.php?page=signin&username=admin&password=shadow&Login=Login"
+hydra -l admin -P Most-Popular-Letter-Passes.txt -s 8081 -f -t 1 localhost http-get-form "/index.php:page=signin&username=admin&password=^PASS^&Login=Login:S=FLAG"
 ```
+
+## Discovery
+
+The page is vulnerable to brute force attacks.
 
 ## Details
 
 on the sign in page
 
-Used "admin" as the username
-to brute force the password... with this small script
-With IFS=, whitespace is preserved:
-IFS = Internal Field Separator — bash variable that tells the shell how to split input into words.
-By default, IFS is space, tab, and newline.
-Here it says no separator so it preserve leading/trailing whitespace in each line.
+Used "admin" as the username and to brute force the password I used this small script.
+
 
 ```bash
 #!/bin/bash
@@ -44,6 +44,11 @@ done < Most-Popular-Letter-Passes.txt
 
 The script reads passwords from a file, tries each one against the login endpoint, and stops when the response contains the word flag.
 
+With IFS=, whitespace is preserved:
+IFS = Internal Field Separator — bash variable that tells the shell how to split input into words.
+By default, IFS is space, tab, and newline.
+Here it says no separator so it preserve leading/trailing whitespace in each line.
+
 IFS= read -r pass
 
 IFS= sets the input field separator to empty for that one read, so leading and trailing whitespace are preserved.
@@ -57,6 +62,7 @@ grep -i
 -q means quiet mode.
 
 I got the flag using `shadow` as the password:
+
 ```
 http://localhost:8081/index.php?page=signin&username=admin&password=shadow&Login=Login#
 ```
@@ -67,7 +73,6 @@ http://localhost:8081/index.php?page=signin&username=admin&password=shadow&Login
 2. **Weak password** – `shadow` is a dictionary word, easily cracked
 3. **No account lockout** – After N failed attempts, account should lock
 4. **No CAPTCHA** – Automated attacks aren't throttled by human verification
-5. **Verbose feedback** – Application returns consistent responses (success/failure not distinguishable by timing or size)
 
 ## Remediation
 
@@ -85,12 +90,6 @@ http://localhost:8081/index.php?page=signin&username=admin&password=shadow&Login
 3. **Implement CAPTCHA** – Require human verification after 3 failed attempts
 
 4. **Account lockout policy** – Temporarily disable account after N failures:
-
-```php
-UPDATE users SET failed_attempts = failed_attempts + 1, 
-                locked_until = NOW() + INTERVAL 30 MINUTE 
-WHERE username = 'admin' AND failed_attempts >= 10;
-```
 
 5. **Multi-factor authentication (MFA)** – Require second factor (TOTP, SMS, email) even if password is correct
 
