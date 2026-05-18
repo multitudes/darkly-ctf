@@ -11,14 +11,17 @@ curl -H "Referer: https://www.nsa.gov/" \
 ```
 
 ## Vulnerability
+
 The application attempts to restrict access to a hidden page by checking HTTP headers, but these can be spoofed client-side.
 
 ## How It Works
 
 1. **Discovery**: The footer link points to a suspicious hash-based page parameter:
+
 ```txt
 ?page=b7e44c7a40c5f80139f0a50f3650fb2bd8d00b0d24667c4c2ca32c88e13b758f
 ```
+
 However it is not a valid hash, but following the link 
 `http://localhost:8081/index.php?page=b7e44c7a40c5f80139f0a50f3650fb2bd8d00b0d24667c4c2ca32c88e13b758f`
 
