@@ -8,13 +8,16 @@
 
 page: `http://localhost:8081/.hidden/`
 commands:
+
 ```bash
 # Run the recursive scraper
 uv run --with requests --with beautifulsoup4 scraper.py
 ```
+
 No curl one-liner — requires the Python scraper to recursively crawl hundreds of nested directories.
 
-trying with wget fails because wget reads the robot.txt and does not crawl the .hidden directory. Still can be run with 
+trying with wget fails because wget reads the robot.txt and does not crawl the .hidden directory. Still can be run with:
+
 ```bash
 # -r = recursive (follow links into subdirectories)
 # -np = no-parent (stay inside /.hidden/, don't go up)
@@ -27,9 +30,10 @@ grep -r "flag" /tmp/hidden_mirror
 # or a quiet -q one liner with &&
 wget -q -r -np -e robots=off http://localhost:8081/.hidden/ -P /tmp/hidden_mirror && grep -r "flag" /tmp/hidden_mirror
 ```
+
 The first two should take 3 minutes to finish. Plus 4 secs for grep. But the last is very fast because there is no terminal output!
 
-## Discovery in robot.txt
+## Discovery in robots.txt
 
 ```txt
 User-agent: *

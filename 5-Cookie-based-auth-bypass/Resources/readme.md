@@ -8,6 +8,7 @@ The application uses client-side cookies for authentication without server-side 
 
 page: `http://localhost:8081/index.php?page=admin`
 commands:
+
 ```bash
 # MD5 of "true"
 echo -n "true" | md5sum
