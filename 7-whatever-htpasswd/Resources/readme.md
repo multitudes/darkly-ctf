@@ -39,11 +39,11 @@ Now have credentials: `root:qwerty123@`
 
 ## Actual Exploitation
 
-Tried `/admin/` directory. 
+Tried `/admin/` directory.
 
 Browser showed auth popup. Entered credentials. Got access and flag:
 
-```
+```txt
 d19b4823e0d5600ceed56d5e896ef328d7a2b9e7ac7e80f4fcdb9b10bcb3e7ff
 ```
 

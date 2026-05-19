@@ -13,10 +13,11 @@ qemu-system-x86_64 -m 1G -drive file=Darkly_i386.iso,format=raw,media=cdrom -boo
 If on a mac with apple silicon, you can use the following command:  
 
 ```bash
-qemu-system-x86_64 -cdrom Darkly_i386.iso -m 1024 -cpu qemu64 -netdev user,id=net0,hostfwd=tcp::8080-:80 -device e1000,netdev=net0
+qemu-system-x86_64 -cdrom Darkly_i386.iso -m 1024 -cpu qemu64 -netdev user,id=net0,hostfwd=tcp::8081-:80 -device e1000,netdev=net0
 ```
 
 ## which sql dialect?
+
 Based on the syntax you used, you are interacting with a **MySQL** (or **MariaDB**, which is a drop-in fork of MySQL) database.
 
 Here is the breakdown of the specific clues in your payload that give it away:

