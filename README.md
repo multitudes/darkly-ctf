@@ -1,4 +1,4 @@
-# darkly-ctf
+# DARKLY
 
 A CTF 42 project for web security. Part of the outer core curriculum.
 
