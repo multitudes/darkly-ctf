@@ -12,7 +12,7 @@ Below is the list of all 14 exploits covered in this project. Click on each link
 3.  **[Broken Access Control](./3-BrokenAccessControl/Resources/readme.md)** - Bypassing access controls to gain unauthorized privileges.
 4.  **[Open Redirects](./4-open_redirects/Resources/readme.md)** - Exploiting unvalidated redirects and forwards to malicious sites.
 5.  **[Cookie-Based Auth Bypass](./5-Cookie-based-auth-bypass/Resources/readme.md)** - Manipulating browser cookies to bypass authentication mechanisms.
-6.  **[Recursive Hidden Directory](./6-recursive-hidden-directory/Resources/readme.md)** - Discovering hidden directories and files through recursive scraping.
+6.  **[Recursive Hidden Directory](./6-recursive-hidden-directory/Resources/README.md)** - Discovering hidden directories and files through recursive scraping.
 7.  **[Htpasswd Bypass](./7-whatever-htpasswd/Resources/readme.md)** - Extracting or bypassing `.htpasswd` basic authentication.
 8.  **[File Upload Vulnerability](./8-file-upload-vulnerability/Resources/readme.md)** - Exploiting insecure file upload handling to execute malicious code.
 9.  **[Path Traversal](./9-Path-traversal/Resources/readme.md)** - Accessing restricted directories and files outside the web root.
