@@ -2,7 +2,9 @@
 
 A CTF 42 project for web security. Part of the outer core curriculum.
 
-![darklyheader.jpg]
+![darklyheader.jpg](darklyheader.jpg)
+
+
 The goal is to find **14 different breaches** on a provided virtual machine, each rewarding you with a "flag". Per the subject, you must be able to explain the "how" and "why" of every exploit, making understanding the underlying concept more important than just getting the flag.
 
 ## The 14 Flags (Vulnerabilities Index)
