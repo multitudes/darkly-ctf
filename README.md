@@ -45,11 +45,8 @@ This is the ultimate giveaway. You used `0x7573657273` to represent the string `
 
 
 ## links
-
-The freecodecamp youtube course it is a good starting point. It is old but so is the 42 project:  
-https://www.freecodecamp.org/news/web-app-penetration-testing-full-course/  
-https://www.youtube.com/watch?v=2_lswM1S264  
-They mention other tools like Burp Suite and ZAP. It is a good to learn to use those tools! They allowed to see clearly the requests and responses and make the discovery easier than just use a curl from your command line!  
+ 
+Tools like Burp Suite and ZAP. It is a good to learn to use those tools! They allowed to see clearly the requests and responses and make the discovery easier than just use a curl from your command line!  
 https://portswigger.net/burp/communitydownload  
 https://www.zaproxy.org/download/  
 
